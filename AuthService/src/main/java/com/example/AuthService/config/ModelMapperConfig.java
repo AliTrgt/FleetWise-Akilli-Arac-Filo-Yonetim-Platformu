@@ -96,7 +96,7 @@ public class ModelMapperConfig {
                 @Override
                 public PersonViewModel convert(MappingContext<Person, PersonViewModel> mappingContext) {
                     Person source = mappingContext.getSource();
-
+                    Role role= source.getRole();
                     PersonViewModel destination = new PersonViewModel();
 
                     destination.setId(source.getId());
@@ -105,6 +105,7 @@ public class ModelMapperConfig {
                     destination.setPhoneNumber(source.getPhoneNumber());
                     destination.setImage(source.getImage());
                     destination.setCreatedAt(source.getCreatedAt());
+                    destination.setRoleId(role.getId());
                     return destination;
                 }
             };
