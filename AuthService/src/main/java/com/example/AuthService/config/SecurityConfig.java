@@ -41,6 +41,7 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/**"
                         ).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

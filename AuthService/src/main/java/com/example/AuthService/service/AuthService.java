@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -23,12 +24,14 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(PersonRepository personRepository, JwtService jwtService, AuthenticationManager authenticationManager, ModelMapper modelMapper) {
+    public AuthService(PersonRepository personRepository, JwtService jwtService, AuthenticationManager authenticationManager, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public JWTResponse login(AuthRequest authRequest) throws Exception {
@@ -70,6 +73,20 @@ public class AuthService {
             modelMapper.map(person,PersonViewModel.class);
         }catch (Exception e){
             throw new NoSuchElementException(e);
+        }
+    }
+    public void changePassword(String token,String newPassword){
+        try {
+            String username = jwtService.extractUser(token);
+            Person person = personRepository.findByUsername(username);
+            if(person == null){
+                    throw new RuntimeException("Kullanıcı bulunamadı");
+            }
+            person.setPassword(passwordEncoder.encode(newPassword));
+            personRepository.save(person);
+
+        }catch (Exception e){
+                throw new RuntimeException(e.getMessage());
         }
     }
 

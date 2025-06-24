@@ -73,5 +73,15 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestHeader("Authorization")String authHeader,@RequestParam String newPassword) throws Exception{
+
+            String token = authHeader.substring(7);
+            authService.changePassword(token,newPassword);
+           return ResponseEntity.ok().build();
+
+
+    }
+
 
 }

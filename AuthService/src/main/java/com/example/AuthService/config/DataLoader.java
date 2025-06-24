@@ -18,8 +18,8 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
             createRoleIfNonExists("ADMIN");
-            createRoleIfNonExists("USER");
-            createRoleIfNonExists("VIEWER");
+            createRoleIfNonExists("DRIVER");
+            createRoleIfNonExists("OPERATOR");
     }
 
 
