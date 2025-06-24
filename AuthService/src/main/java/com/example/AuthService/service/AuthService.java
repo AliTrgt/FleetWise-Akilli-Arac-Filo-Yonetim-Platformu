@@ -65,7 +65,6 @@ public class AuthService {
             return new JWTResponse(token,refreshToken);
     }
 
-
     public void register(InsertPerson insertPerson){
         try {
             Person person = modelMapper.map(insertPerson,Person.class);

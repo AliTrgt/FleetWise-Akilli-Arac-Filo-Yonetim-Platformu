@@ -67,21 +67,15 @@ public class AuthController {
         try {
             authService.register(insertPerson);
             return ResponseEntity.ok().build();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<?> changePassword(@RequestHeader("Authorization")String authHeader,@RequestParam String newPassword) throws Exception{
-
-            String token = authHeader.substring(7);
-            authService.changePassword(token,newPassword);
-           return ResponseEntity.ok().build();
-
-
+    public ResponseEntity<?> changePassword(@RequestHeader("Authorization") String authHeader, @RequestParam String newPassword) throws Exception {
+        String token = authHeader.substring(7);
+        authService.changePassword(token, newPassword);
+        return ResponseEntity.ok().build();
     }
-
-
 }
