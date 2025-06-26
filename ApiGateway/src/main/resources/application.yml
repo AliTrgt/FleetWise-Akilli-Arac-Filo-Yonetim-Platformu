@@ -1,24 +1,29 @@
-server:
-  port: 8888
-
 spring:
   application:
     name: api-gateway
-
   cloud:
     gateway:
-      routes:
-        - id: auth-service
-          uri: lb://auth-service
-          predicates:
-            - Path=/auth/**
+      server:
+        webmvc:
+          routes:
+            - id: driver-service
+              uri: lb://driver-service
+              predicates:
+                - Path=/api/driver/**
+            - id: auth-service
+              uri: lb://auth-service
+              predicates:
+                - Path=/api/auth/**
+      discovery:
+        locator:
+          enabled: true
 
+server:
+  port: 8888
 eureka:
-  instance:
-    prefer-ip-address: true
-
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
-    register-with-eureka: true    # Eureka'ya kay?t olmas? için
-    fetch-registry: true          # Kay?tl? client'lar?n listesini al?r
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
