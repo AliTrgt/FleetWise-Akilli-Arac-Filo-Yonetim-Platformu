@@ -14,10 +14,10 @@ spring:
               uri: lb://auth-service
               predicates:
                 - Path=/api/auth/**
+                - Path=/api/person/**
       discovery:
         locator:
           enabled: true
-
 server:
   port: 8888
 eureka:
