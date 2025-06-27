@@ -10,15 +10,15 @@
         <module name="EurekaServer" />
         <module name="ApiGateway" />
       </profile>
-      <profile name="Annotation profile for DriverService" enabled="true">
+      <profile name="Annotation profile for AuthService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
+        <processorPath>
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="DriverService" />
         <module name="AuthService" />
+        <module name="DriverService" />
       </profile>
     </annotationProcessing>
   </component>
