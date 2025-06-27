@@ -5,5 +5,8 @@
     <file url="file://$PROJECT_DIR$/AuthService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/DriverService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/EurekaServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MaintenanceService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TripService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/VehicleService/src/main/java" charset="UTF-8" />
   </component>
 </project>

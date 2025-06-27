@@ -20,6 +20,17 @@
         <module name="AuthService" />
         <module name="DriverService" />
       </profile>
+      <profile name="Annotation profile for MaintenanceService" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="TripService" />
+        <module name="VehicleService" />
+        <module name="MaintenanceService" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
@@ -28,6 +39,9 @@
       <module name="AuthService" options="-parameters" />
       <module name="DriverService" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
+      <module name="MaintenanceService" options="-parameters" />
+      <module name="TripService" options="-parameters" />
+      <module name="VehicleService" options="-parameters" />
     </option>
   </component>
 </project>
