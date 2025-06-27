@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.0
@@ -22,3 +21,15 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
+
+  mongodb:
+    image: mongo:8.0.10
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: always
+
+volumes:
+  mongodb_data:
