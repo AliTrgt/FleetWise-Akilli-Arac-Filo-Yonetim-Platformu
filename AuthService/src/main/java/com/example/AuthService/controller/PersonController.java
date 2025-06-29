@@ -17,11 +17,9 @@ import java.util.List;
 public class PersonController {
 
     private final PersonService personService;
-    private final ResourceServerTokenRelayAutoConfiguration.ResourceServerTokenRelayRegistrationAutoConfiguration resourceServerTokenRelayRegistrationAutoConfiguration;
 
-    public PersonController(PersonService personService, ResourceServerTokenRelayAutoConfiguration.ResourceServerTokenRelayRegistrationAutoConfiguration resourceServerTokenRelayRegistrationAutoConfiguration) {
+    public PersonController(PersonService personService) {
         this.personService = personService;
-        this.resourceServerTokenRelayRegistrationAutoConfiguration = resourceServerTokenRelayRegistrationAutoConfiguration;
     }
 
     @GetMapping

@@ -6,6 +6,8 @@ import com.example.AuthService.dto.person.response.PersonViewModel;
 import com.example.AuthService.entity.Person;
 import com.example.AuthService.repository.PersonRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
-
+    private static final Logger _logger = LoggerFactory.getLogger(PersonService.class);
     private final PersonRepository personRepository;
     private final ModelMapper modelMapper;
 
@@ -30,14 +32,18 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
-    public PersonViewModel updateUser(UpdatePerson updatePerson){
-            Person person = modelMapper.map(updatePerson,Person.class);
-            personRepository.save(person);
-            return modelMapper.map(person, PersonViewModel.class);
+    public PersonViewModel updateUser(UpdatePerson updatePerson) {
+        _logger.info("Updating person with id: {}", updatePerson.getId());
+        Person person = modelMapper.map(updatePerson, Person.class);
+        personRepository.save(person);
+        _logger.debug("Updated person: {}", person);
+        return modelMapper.map(person, PersonViewModel.class);
     }
 
-    public void delete(int id){
-            personRepository.deleteById(id);
+    public void delete(int id) {
+        _logger.warn("Attempted to delete non-existing person with id: {}", id);
+        personRepository.deleteById(id);
+        _logger.info("Deleted person with id: {}", id);
     }
 
 }
