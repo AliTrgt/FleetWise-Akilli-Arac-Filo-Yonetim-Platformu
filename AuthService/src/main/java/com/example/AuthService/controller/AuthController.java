@@ -8,8 +8,12 @@ import com.example.AuthService.entity.Person;
 import com.example.AuthService.repository.PersonRepository;
 import com.example.AuthService.security.JWTResponse;
 import com.example.AuthService.security.JwtService;
+import com.example.AuthService.security.SecurityService;
 import com.example.AuthService.service.AuthService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -21,11 +25,13 @@ public class AuthController {
     private final AuthService authService;
     private final JwtService jwtService;
     private final PersonRepository personRepository;
+    private final SecurityService securityService;
 
-    public AuthController(AuthService authService, JwtService jwtService, PersonRepository personRepository) {
+    public AuthController(AuthService authService, JwtService jwtService, PersonRepository personRepository, SecurityService securityService) {
         this.authService = authService;
         this.jwtService = jwtService;
         this.personRepository = personRepository;
+        this.securityService = securityService;
     }
 
     @GetMapping("/me")
@@ -79,5 +85,25 @@ public class AuthController {
         String token = authHeader.substring(7);
         authService.changePassword(token, newPassword);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<?> validate(@RequestHeader("Authorization") String authHeader) throws Exception {
+        try {
+            String token = authHeader.substring(7);
+            String username = jwtService.extractUser(token);
+            UserDetails userDetails = securityService.loadUserByUsername(username);
+
+            boolean isValid = jwtService.validateToken(token, userDetails);
+
+            if (!isValid) {
+                return ResponseEntity.status(401).body("Token geçersiz");
+            }
+            return ResponseEntity.ok(isValid);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Token validation error: " + e.getMessage());
+        }
+
     }
 }
