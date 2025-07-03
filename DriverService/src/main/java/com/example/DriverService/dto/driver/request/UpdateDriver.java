@@ -3,15 +3,13 @@ package com.example.DriverService.dto.driver.request;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.sql.Date;
 
 @Data
 public class UpdateDriver {
-    private int id;
-    private int personId;
-    private int driverPenaltyId;
     private String licenseNumber;
-    private LocalDate licenseExpiryDate;
+    private Date licenseExpiryDate;
+    private String status;
     private Double drivingScore;
-    private String phoneNumber;
     private String address;
 }

@@ -17,7 +17,7 @@ public class GatewayRoutesConfig {
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("driver-service", r -> r.path("/api/driver/**")
+                .route("driver-service", r -> r.path("/api/driver/**","/api/driverPenalty/**")
                         .filters(f -> f.filter(authenticationFilter))
                         .uri("lb://driver-service"))
                 .route("maintenance-service", r -> r.path("/api/maintenance/**")

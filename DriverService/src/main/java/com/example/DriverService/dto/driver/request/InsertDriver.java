@@ -1,16 +1,14 @@
 package com.example.DriverService.dto.driver.request;
 
+import com.example.DriverService.entity.DriverStatus;
 import lombok.Data;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Data
 public class InsertDriver {
-    private int personId;
-    private int driverPenaltyId;
     private String licenseNumber;
-    private LocalDate licenseExpiryDate;
-    private Double drivingScore;
-    private String phoneNumber;
+    private Date licenseExpiryDate;
     private String address;
 }

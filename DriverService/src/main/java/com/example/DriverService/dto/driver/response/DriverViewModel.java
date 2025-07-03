@@ -2,16 +2,19 @@ package com.example.DriverService.dto.driver.response;
 
 import lombok.Data;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 public class DriverViewModel {
-    private int id;
+    private UUID id;
     private int personId;
-    private int driverPenaltyId;
     private String licenseNumber;
-    private LocalDate licenseExpiryDate;
+    private Date licenseExpiryDate;
+    private String status;
     private Double drivingScore;
-    private String phoneNumber;
+    private Double salary;
     private String address;
+    private Boolean deleted;
 }

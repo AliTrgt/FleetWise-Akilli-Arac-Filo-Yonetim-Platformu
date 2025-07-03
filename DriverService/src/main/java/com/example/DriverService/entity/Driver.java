@@ -1,12 +1,15 @@
 package com.example.DriverService.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,20 +29,24 @@ public class Driver {
     private int personId;
 
     @OneToMany(mappedBy ="driver",cascade = CascadeType.ALL)
-    private List<DriverPenalty> driverPenaltyList;
+    private List<DriverPenalty> driverPenaltyList = new ArrayList<>();
 
     @Column(name = "license_number",nullable = false,unique = true)
     private String licenseNumber;
 
     @Column(name = "license_expiry_date")
-    private LocalDate licenseExpiryDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date licenseExpiryDate;
 
     private Double drivingScore;
 
-    @Column(name = "phone_number",nullable = false)
-    private String phoneNumber;
+    private Double salary;
 
     private String address;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DriverStatus status;
 
     @Column(nullable = false)
     private Boolean deleted = false;
