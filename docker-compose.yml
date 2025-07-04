@@ -22,14 +22,18 @@ services:
     depends_on:
       - zookeeper
 
-  mongodb:
-    image: mongo:8.0.10
-    container_name: mongodb
+  couchbase:
+    image: couchbase:community
+    container_name: couchbase
     ports:
-      - "27017:27017"
+      - "8091-8096:8091-8096"   # Web UI ve diğer servisler
+      - "11210:11210"           # SDK portu (KV protokolü)
+    environment:
+      - COUCHBASE_ADMINISTRATOR_USERNAME=admin
+      - COUCHBASE_ADMINISTRATOR_PASSWORD=password
     volumes:
-      - mongodb_data:/data/db
-    restart: always
+      - couchbase_data:/opt/couchbase/var
+    restart: unless-stopped
 
 volumes:
-  mongodb_data:
+ couchbase_data:

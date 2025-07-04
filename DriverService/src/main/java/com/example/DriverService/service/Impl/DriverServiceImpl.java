@@ -6,7 +6,6 @@ import com.example.DriverService.dto.driver.response.DriverViewModel;
 import com.example.DriverService.entity.Driver;
 import com.example.DriverService.entity.DriverPenalty;
 import com.example.DriverService.entity.DriverStatus;
-import com.example.DriverService.entity.PenaltyType;
 import com.example.DriverService.repository.IDriverPenaltyRepository;
 import com.example.DriverService.repository.IDriverRepository;
 import com.example.DriverService.service.IDriverService;
@@ -14,6 +13,7 @@ import com.example.DriverService.util.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,13 +31,13 @@ public class DriverServiceImpl implements IDriverService {
     private final IDriverRepository driverRepository;
     private final JwtUtil jwtUtil;
     private final ModelMapper modelMapper;
-    private final IDriverPenaltyRepository driverPenaltyRepository;
+    private final KafkaTemplate<String,Driver> kafkaTemplate;
 
-    public DriverServiceImpl(IDriverRepository driverRepository, JwtUtil jwtUtil, ModelMapper modelMapper, IDriverPenaltyRepository driverPenaltyRepository) {
+    public DriverServiceImpl(IDriverRepository driverRepository, JwtUtil jwtUtil, ModelMapper modelMapper, KafkaTemplate<String, Driver> kafkaTemplate) {
         this.driverRepository = driverRepository;
         this.jwtUtil = jwtUtil;
         this.modelMapper = modelMapper;
-        this.driverPenaltyRepository = driverPenaltyRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
@@ -59,6 +59,7 @@ public class DriverServiceImpl implements IDriverService {
             driver.setPersonId(userId);
             driverRepository.save(driver);
             _logger.info("New driver created. UserId: {}", userId);
+            kafkaTemplate.send("driver-created",driver);
         } catch (Exception e) {
             _logger.error("Failed to create driver for userId: {}", userId, e);
             throw new Exception(e);
@@ -176,7 +177,7 @@ public class DriverServiceImpl implements IDriverService {
                 _logger.info("License expired message  ");
                 driver.setStatus(DriverStatus.LICENSE_EXPIRED);
                 driverRepository.save(driver);
-                // kafka dan mesaj yollayacağız
+                kafkaTemplate.send("license-expiry-warning",driver);
             }
         } catch (Exception e) {
             _logger.error("An error occured while sending expiry warning for driverId {}:", driverId, e);
@@ -195,6 +196,7 @@ public class DriverServiceImpl implements IDriverService {
                 driver.setStatus(DriverStatus.SUSPENDED);
                 driverRepository.save(driver);
                 _logger.info("Driver status updated to SUSPENDED for driverId {}", driverId);
+                kafkaTemplate.send("suspended-driver",driver);
             }
         }catch (Exception e){
             _logger.error("Error occurred while suspending driver with ID {}: ", driverId, e);
