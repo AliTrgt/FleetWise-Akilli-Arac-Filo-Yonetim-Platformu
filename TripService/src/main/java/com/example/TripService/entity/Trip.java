@@ -39,4 +39,7 @@ public class Trip {
 
     @Enumerated(EnumType.STRING)
     private TripType tripType;
+
+    @Column(nullable = false)
+    private Boolean deleted = false;
 }

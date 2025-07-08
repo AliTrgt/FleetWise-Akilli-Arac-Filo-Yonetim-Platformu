@@ -4,4 +4,5 @@ public enum TripStatus {
     STARTED,
     COMPLETED,
     CANCELLED,
+    PAUSED,
 }
