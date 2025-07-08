@@ -14,6 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,7 +33,7 @@ public class DriverServiceImpl implements IDriverService {
     private final IDriverRepository driverRepository;
     private final JwtUtil jwtUtil;
     private final ModelMapper modelMapper;
-    private final KafkaTemplate<String,Driver> kafkaTemplate;
+    private final KafkaTemplate<String, Driver> kafkaTemplate;
 
     public DriverServiceImpl(IDriverRepository driverRepository, JwtUtil jwtUtil, ModelMapper modelMapper, KafkaTemplate<String, Driver> kafkaTemplate) {
         this.driverRepository = driverRepository;
@@ -59,11 +61,16 @@ public class DriverServiceImpl implements IDriverService {
             driver.setPersonId(userId);
             driverRepository.save(driver);
             _logger.info("New driver created. UserId: {}", userId);
-            kafkaTemplate.send("driver-created",driver);
+            kafkaTemplate.send("driver-created", driver);
         } catch (Exception e) {
             _logger.error("Failed to create driver for userId: {}", userId, e);
             throw new Exception(e);
         }
+    }
+    @Override
+    public DriverViewModel findById(UUID id) {
+            Driver driver =  driverRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id+" ID'li sürücü bulunamadı"));
+            return modelMapper.map(driver,DriverViewModel.class);
     }
 
     @Override
@@ -155,7 +162,7 @@ public class DriverServiceImpl implements IDriverService {
                 Integer penaltyPoints = penalty.getPenaltyType().getPenaltyPoints();
                 driverScore -= penaltyPoints;
             }
-            driverScore = Math.max(driverScore,0);
+            driverScore = Math.max(driverScore, 0);
             driver.setDrivingScore(driverScore);
             _logger.info("Updated driver score for driverId {}: new score = {}", driverId, driverScore);
             driverRepository.save(driver);
@@ -177,7 +184,7 @@ public class DriverServiceImpl implements IDriverService {
                 _logger.info("License expired message  ");
                 driver.setStatus(DriverStatus.LICENSE_EXPIRED);
                 driverRepository.save(driver);
-                kafkaTemplate.send("license-expiry-warning",driver);
+                kafkaTemplate.send("license-expiry-warning", driver);
             }
         } catch (Exception e) {
             _logger.error("An error occured while sending expiry warning for driverId {}:", driverId, e);
@@ -189,16 +196,16 @@ public class DriverServiceImpl implements IDriverService {
     public void suspendDriver(UUID driverId) throws Exception {
         try {
             Driver driver = driverRepository.findByIdAndDeletedFalse(driverId)
-                    .orElseThrow(() -> new NoSuchElementException(driverId+" ID'li driver bulunamadı"));
+                    .orElseThrow(() -> new NoSuchElementException(driverId + " ID'li driver bulunamadı"));
 
-            if (driver.getDrivingScore() < 40 ){
-                _logger.info("Driver suspended for traffic violation {} ",driver);
+            if (driver.getDrivingScore() < 40) {
+                _logger.info("Driver suspended for traffic violation {} ", driver);
                 driver.setStatus(DriverStatus.SUSPENDED);
                 driverRepository.save(driver);
                 _logger.info("Driver status updated to SUSPENDED for driverId {}", driverId);
-                kafkaTemplate.send("suspended-driver",driver);
+                kafkaTemplate.send("suspended-driver", driver);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             _logger.error("Error occurred while suspending driver with ID {}: ", driverId, e);
             throw new Exception(e);
         }
