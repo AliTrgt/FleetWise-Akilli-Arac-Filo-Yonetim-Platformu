@@ -13,6 +13,8 @@ public interface IDriverService {
 
     void createDriver(String authHeader, InsertDriver driver) throws Exception;
 
+    DriverViewModel findById(UUID id);
+
     void updateDriver(UUID id, UpdateDriver driver) throws Exception;
 
     void delete(UUID id) throws Exception;

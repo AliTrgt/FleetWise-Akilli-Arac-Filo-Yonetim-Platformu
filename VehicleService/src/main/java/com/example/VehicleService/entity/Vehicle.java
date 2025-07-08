@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -16,8 +16,8 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private int driverId;
+    @Column(nullable = true)
+    private UUID driverId;
 
     @Column(nullable = false)
     private String plateNumber;
@@ -29,10 +29,13 @@ public class Vehicle {
     private String model;
 
     @Column(nullable = false)
+    private String color;
+
+    @Column(nullable = false)
     private Double mileage;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date registrationDate;
+    private Date registrationDate = new Date();
 
     @Column(nullable = false)
     private Boolean deleted = false;
@@ -41,4 +44,7 @@ public class Vehicle {
     @Column(nullable = false)
     private VehicleStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VehicleType vehicleType;
 }

@@ -3,10 +3,14 @@ package com.example.DriverService.controller;
 import com.example.DriverService.dto.driver.request.InsertDriver;
 import com.example.DriverService.dto.driver.request.UpdateDriver;
 import com.example.DriverService.dto.driver.response.DriverViewModel;
+import com.example.DriverService.entity.Driver;
+import com.example.DriverService.repository.IDriverRepository;
 import com.example.DriverService.service.IDriverService;
+import com.example.DriverService.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +20,8 @@ import java.util.UUID;
 public class DriverController {
 
     private final IDriverService driverService;
+    private final JwtUtil jwtUtil;
+    private final IDriverRepository driverRepository;
 
     @GetMapping
     public ResponseEntity<List<DriverViewModel>> getAll() {
@@ -47,6 +53,12 @@ public class DriverController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{driverId}")
+    public ResponseEntity<?> findById(@PathVariable UUID driverId) throws Exception {
+        var driver = driverService.findById(driverId);
+        return ResponseEntity.ok(driver);
+    }
+
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentDriver(
             @RequestHeader("Authorization") String authHeader) throws Exception {
@@ -75,7 +87,6 @@ public class DriverController {
     public ResponseEntity<?> suspendDriver(@PathVariable UUID id) throws Exception {
         driverService.suspendDriver(id);
         return ResponseEntity.ok().build();
-
     }
 
 
