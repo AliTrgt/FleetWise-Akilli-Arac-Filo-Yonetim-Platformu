@@ -1,9 +1,9 @@
-package com.example.DriverService.dto.driver.response;
+package com.example.TripService.dto.client;
+
 
 import lombok.Data;
 
-import java.util.Date;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.UUID;
 
 @Data
@@ -18,3 +18,4 @@ public class DriverViewModel {
     private String address;
     private Boolean deleted;
 }
+

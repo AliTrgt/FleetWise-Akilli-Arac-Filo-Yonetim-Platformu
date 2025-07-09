@@ -67,6 +67,7 @@ public class VehicleServiceImpl implements IVehicleService {
 
             vehicle.setDriverId(driverId);
             vehicle.setStatus(VehicleStatus.ASSIGNED);
+            vehicle.setAssigned(true);
             vehicleRepository.save(vehicle);
 
             _logger.info("Successfully assigned driver {} to vehicle {}", driverId, vehicleId);
@@ -171,6 +172,13 @@ public class VehicleServiceImpl implements IVehicleService {
     public VehicleViewModel findByPlateNumber(String plateNumber) {
         Vehicle vehicle = vehicleRepository.findByPlateNumberAndDeletedFalse(plateNumber)
                 .orElseThrow(() -> new NoSuchElementException(plateNumber + " plakalı araç bulunamadı"));
+        return modelMapper.map(vehicle, VehicleViewModel.class);
+    }
+
+    @Override
+    public VehicleViewModel findVehicleByIdAndAssignedTrue(UUID vehicleId) {
+        Vehicle vehicle = vehicleRepository.findVehicleByIdAndAssignedTrueAndDeletedFalse(vehicleId)
+                .orElseThrow(() -> new NoSuchElementException(vehicleId + " ID'li araç bulunamadı"));
         return modelMapper.map(vehicle, VehicleViewModel.class);
     }
 

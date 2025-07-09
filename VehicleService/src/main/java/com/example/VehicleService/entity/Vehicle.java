@@ -1,6 +1,7 @@
 package com.example.VehicleService.entity;
 
 import jakarta.persistence.*;
+import jdk.jfr.BooleanFlag;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -47,4 +48,7 @@ public class Vehicle {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VehicleType vehicleType;
+
+    @Column(nullable = false)
+    private Boolean assigned = false;
 }

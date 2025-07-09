@@ -78,6 +78,7 @@ public class ModelMapperConfig {
                 destination.setDriverId(source.getDriverId());
                 destination.setPlateNumber(source.getPlateNumber());
                 destination.setDeleted(source.getDeleted());
+                destination.setAssigned(source.getAssigned());
 
                 return destination;
             }

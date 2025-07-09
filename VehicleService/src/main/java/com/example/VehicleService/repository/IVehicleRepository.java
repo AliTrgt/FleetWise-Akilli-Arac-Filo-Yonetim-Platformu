@@ -18,4 +18,5 @@ public interface IVehicleRepository extends JpaRepository<Vehicle, UUID> {
     Optional<Vehicle> findVehicleByBrandAndDeletedFalse(String brand);
     Optional<Vehicle> findVehicleByStatusAndDeletedFalse(VehicleStatus status);
     Optional<Vehicle> findByPlateNumberAndDeletedFalse(String plateNumber);
+    Optional<Vehicle> findVehicleByIdAndAssignedTrueAndDeletedFalse(UUID vehicleId);
 }

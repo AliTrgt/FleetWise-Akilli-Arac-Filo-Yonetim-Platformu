@@ -30,6 +30,8 @@ public interface IVehicleService {
 
     VehicleViewModel findByPlateNumber(String plateNumber);
 
+    VehicleViewModel findVehicleByIdAndAssignedTrue(UUID vehicleId);
+
 
 
 }

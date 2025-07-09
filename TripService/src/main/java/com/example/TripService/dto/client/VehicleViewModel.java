@@ -1,9 +1,6 @@
-package com.example.VehicleService.dto.vehicle.response;
+package com.example.TripService.dto.client;
 
-import com.example.VehicleService.entity.VehicleStatus;
-import com.example.VehicleService.entity.VehicleType;
 import lombok.Data;
-import org.apache.kafka.common.protocol.types.Field;
 
 import java.util.UUID;
 
@@ -17,7 +14,7 @@ public class VehicleViewModel {
     private String brand;
     private Double mileage;
     private Boolean deleted;
-    private VehicleStatus status;
-    private VehicleType vehicleType;
+    private String status;
+    private String vehicleType;
     private Boolean assigned;
 }

@@ -7,6 +7,7 @@ import com.example.VehicleService.dto.vehicle.response.VehicleViewModel;
 import com.example.VehicleService.entity.VehicleStatus;
 import com.example.VehicleService.service.IVehicleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,6 +80,12 @@ public class VehicleController {
     public ResponseEntity<?> findByPlateNumber(@RequestParam String plateNumber){
             var plate = vehicleService.findByPlateNumber(plateNumber);
             return ResponseEntity.ok(plate);
+    }
+
+    @GetMapping("/assigned/{id}")
+    public ResponseEntity<?> findVehicleByIdAndAssignedTrue(@PathVariable UUID id){
+            var vehicle = vehicleService.findVehicleByIdAndAssignedTrue(id);
+            return ResponseEntity.ok(vehicle);
     }
 
 }
