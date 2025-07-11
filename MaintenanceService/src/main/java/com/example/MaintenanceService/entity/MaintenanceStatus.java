@@ -1,8 +1,9 @@
 package com.example.MaintenanceService.entity;
 
 public enum MaintenanceStatus {
-    COMPLETED,
-    CANCELLED,
+    CREATED,
     IN_PROGRESS,
-    OVERDUE
+    CANCEL,
+    OVERDUE,
+    COMPLETED
 }

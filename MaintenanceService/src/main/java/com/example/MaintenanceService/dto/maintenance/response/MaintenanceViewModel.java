@@ -13,8 +13,11 @@ public class MaintenanceViewModel {
     private UUID vehicleId;
     private MaintenanceType maintenanceType;
     private LocalDate maintenanceDate;
+    private LocalDate estimatedCompletionDate;
     private Double cost;
     private String description;
     private MaintenanceStatus status;
+    private String image;
     private Boolean deleted;
+    private Boolean confirmed;
 }

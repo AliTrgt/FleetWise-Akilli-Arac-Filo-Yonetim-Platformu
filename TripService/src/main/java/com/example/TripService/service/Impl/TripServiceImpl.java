@@ -1,8 +1,6 @@
 package com.example.TripService.service.Impl;
 
-import com.example.TripService.client.IDriverClient;
 import com.example.TripService.client.IVehicleClient;
-import com.example.TripService.config.ModelMapperConfig;
 import com.example.TripService.dto.trip.request.InsertTrip;
 import com.example.TripService.dto.trip.request.UpdateTrip;
 import com.example.TripService.dto.trip.response.TripViewModel;

@@ -3,6 +3,7 @@ package com.example.TripService.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Null;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,9 +24,11 @@ public class Trip {
     private UUID vehicleId;
 
     @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startTime;
 
     @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endTime;
 
     @Column(nullable = false)

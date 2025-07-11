@@ -88,4 +88,10 @@ public class VehicleController {
             return ResponseEntity.ok(vehicle);
     }
 
+    @GetMapping("/single/{vehicleId}")
+    public ResponseEntity<?> findById(@PathVariable UUID vehicleId) throws Exception{
+            var vehicle = vehicleService.findById(vehicleId);
+            return ResponseEntity.ok(vehicle);
+    }
+
 }

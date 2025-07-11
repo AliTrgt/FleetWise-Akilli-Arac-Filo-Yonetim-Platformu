@@ -24,6 +24,8 @@ public interface IVehicleService {
 
     List<VehicleViewModel> findByDriverId(UUID driverId);
 
+    VehicleViewModel findById(UUID vehicleId) throws Exception;
+
     VehicleViewModel findByBrand(String brand);
 
     VehicleViewModel findByStatus(VehicleStatus status);

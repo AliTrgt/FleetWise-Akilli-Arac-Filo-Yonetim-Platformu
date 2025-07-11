@@ -88,7 +88,8 @@ public class VehicleServiceImpl implements IVehicleService {
                     .orElseThrow(() -> new NoSuchElementException("Vehicle with id " + vehicleId + " not found."));
             UUID prevDriverId = vehicle.getDriverId();
             vehicle.setDriverId(null);
-            vehicle.setStatus(VehicleStatus.ACTIVE);
+            vehicle.setAssigned(false);
+            vehicle.setStatus(VehicleStatus.UNASSIGNED);
             vehicleRepository.save(vehicle);
             _logger.info("Successfully unassigned vehicle :  {} driverId : {} ", vehicleId, prevDriverId);
             kafkaTemplate.send("unAssign-driver-vehicle", vehicle);
@@ -151,6 +152,17 @@ public class VehicleServiceImpl implements IVehicleService {
                 .stream()
                 .map(vehicle -> modelMapper.map(vehicle, VehicleViewModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public VehicleViewModel findById(UUID vehicleId) throws Exception {
+        try {
+              Vehicle vehicle =   vehicleRepository.findById(vehicleId)
+                        .orElseThrow(() -> new NoSuchElementException(vehicleId+" ID'li araç bulunamadı"));
+                return modelMapper.map(vehicle,VehicleViewModel.class);
+        }catch (Exception e){
+            throw new Exception(e);
+        }
     }
 
     @Override

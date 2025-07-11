@@ -16,16 +16,22 @@ public class Maintenance {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
     private UUID vehicleId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MaintenanceType maintenanceType;
 
+    @Column(nullable = false,columnDefinition = "TEXT")
+    private String image;
+
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate maintenanceDate;
+
+    @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate estimatedCompletionDate;
 
     @Column(nullable = false)
     private Double cost;
@@ -39,4 +45,7 @@ public class Maintenance {
 
     @Column(nullable = false)
     private Boolean deleted = false;
+
+    @Column(nullable = false)
+    private Boolean confirmed = false;
 }
