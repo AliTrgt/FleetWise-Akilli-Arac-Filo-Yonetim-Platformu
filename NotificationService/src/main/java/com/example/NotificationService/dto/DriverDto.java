@@ -1,0 +1,19 @@
+package com.example.NotificationService.dto;
+
+import lombok.Data;
+
+import java.util.Date;
+import java.util.UUID;
+
+@Data
+public class DriverDto {
+    private UUID id;
+    private int personId;
+    private String licenseNumber;
+    private Date licenseExpiryDate;
+    private String status;
+    private Double drivingScore;
+    private Double salary;
+    private String address;
+    private Boolean deleted;
+}
