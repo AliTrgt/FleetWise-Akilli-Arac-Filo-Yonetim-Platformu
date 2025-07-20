@@ -33,7 +33,6 @@ public class VehicleListenerService {
     public void unAssignedDriverToVehicle(String message) throws Exception {
         try {
             VehicleDto vehicleDto = objectMapper.readValue(message, VehicleDto.class);
-            System.out.println(vehicleDto);
         }catch (Exception e){
             throw new Exception(e);
         }
