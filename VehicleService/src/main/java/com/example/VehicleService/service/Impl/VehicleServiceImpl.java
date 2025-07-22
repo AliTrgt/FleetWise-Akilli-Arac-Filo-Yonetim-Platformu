@@ -82,7 +82,7 @@ public class VehicleServiceImpl implements IVehicleService {
     }
 
     @Override
-    public void unAssignDriverToVehicle(UUID vehicleId) throws Exception {
+    public void unAssignDriverToVehicle(UUID vehicleId){
         try {
             Vehicle vehicle = vehicleRepository.findByIdAndDeletedFalse(vehicleId)
                     .orElseThrow(() -> new NoSuchElementException("Vehicle with id " + vehicleId + " not found."));

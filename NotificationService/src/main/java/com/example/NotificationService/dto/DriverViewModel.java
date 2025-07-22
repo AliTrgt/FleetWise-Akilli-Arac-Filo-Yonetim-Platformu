@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Data
-public class DriverDto {
+public class DriverViewModel {
     private UUID id;
     private int personId;
     private String licenseNumber;

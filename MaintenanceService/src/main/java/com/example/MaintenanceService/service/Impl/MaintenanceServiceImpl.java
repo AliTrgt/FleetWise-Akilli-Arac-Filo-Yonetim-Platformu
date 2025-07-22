@@ -110,7 +110,6 @@ public class MaintenanceServiceImpl implements IMaintenanceService {
             if (maintenance.getEstimatedCompletionDate().isBefore(today) && maintenance.getStatus() == MaintenanceStatus.IN_PROGRESS) {
                 maintenance.setStatus(MaintenanceStatus.OVERDUE);
                 maintenanceRepository.save(maintenance);
-                kafkaTemplate.send("maintenance-overdue",maintenance);
                 _logger.info("Maintenance status for ID {} was set to OVERDUE.", maintenanceId);
             }
         } catch (Exception e) {
@@ -134,7 +133,6 @@ public class MaintenanceServiceImpl implements IMaintenanceService {
             maintenanceToAssign.setVehicleId(vehicleId);
             maintenanceToAssign.setConfirmed(true);
             maintenanceToAssign.setStatus(MaintenanceStatus.IN_PROGRESS);
-            kafkaTemplate.send("assigned-maintenance",maintenanceToAssign);
             maintenanceRepository.save(maintenanceToAssign);
             _logger.info("Successfully assigned maintenance {} to vehicle {}.", maintenanceId, vehicleId);
 
@@ -155,7 +153,6 @@ public class MaintenanceServiceImpl implements IMaintenanceService {
             maintenance.setConfirmed(false);
             maintenance.setStatus(MaintenanceStatus.CANCEL);
             maintenanceRepository.save(maintenance);
-            kafkaTemplate.send("unAssigned-maintenance",maintenance);
             _logger.info("Successfully unassigned maintenance {} and set status to CANCELLED.", maintenanceId);
 
         } catch (Exception e) {
@@ -175,7 +172,6 @@ public class MaintenanceServiceImpl implements IMaintenanceService {
                     maintenance.getStatus() == MaintenanceStatus.IN_PROGRESS) {
                 maintenance.setStatus(MaintenanceStatus.COMPLETED);
                 maintenanceRepository.save(maintenance);
-                kafkaTemplate.send("maintenance-completed",maintenance);
                 _logger.info("Bakım kaydı {} otomatik olarak COMPLETED durumuna geçirildi. Tahmini tamamlanma tarihi: {}",
                         id, maintenance.getEstimatedCompletionDate());
             }

@@ -1,8 +1,8 @@
 package com.example.NotificationService.Listener;
 
 import com.example.NotificationService.Impl.MailService;
-import com.example.NotificationService.client.UserClient;
-import com.example.NotificationService.dto.DriverDto;
+import com.example.NotificationService.client.IUserClient;
+import com.example.NotificationService.dto.DriverViewModel;
 import com.example.NotificationService.dto.PersonViewModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -12,20 +12,20 @@ import org.springframework.stereotype.Service;
 public class DriverListenerService {
 
     private final ObjectMapper objectMapper;
-    private final UserClient userClient;
+    private final IUserClient IUserClient;
     private final MailService mailService;
 
-    public DriverListenerService(ObjectMapper objectMapper, UserClient userClient, MailService mailService) {
+    public DriverListenerService(ObjectMapper objectMapper, IUserClient IUserClient, MailService mailService) {
         this.objectMapper = objectMapper;
-        this.userClient = userClient;
+        this.IUserClient = IUserClient;
         this.mailService = mailService;
     }
 
     @KafkaListener(topics = "driver-created", groupId = "notification-group")
     public void listenDriverCreated(String message) throws Exception {
         try {
-            DriverDto driverDto = objectMapper.readValue(message, DriverDto.class);
-            PersonViewModel p = userClient.findById(driverDto.getPersonId());
+            DriverViewModel driverViewModel = objectMapper.readValue(message, DriverViewModel.class);
+            PersonViewModel p = IUserClient.findById(driverViewModel.getPersonId());
             String subject = "🚗 FleetWise'e Hoş Geldiniz – Sürücü Hesabınız Oluşturuldu!";
             String body = String.format("""
                     Merhaba %s,
@@ -56,8 +56,8 @@ public class DriverListenerService {
     @KafkaListener(topics = "license-expiry-warning", groupId = "notification-group")
     public void getLicenseExpiryWarning(String message) throws Exception {
         try {
-            DriverDto driverDto = objectMapper.readValue(message, DriverDto.class);
-            PersonViewModel p = userClient.findById(driverDto.getPersonId());
+            DriverViewModel driverViewModel = objectMapper.readValue(message, DriverViewModel.class);
+            PersonViewModel p = IUserClient.findById(driverViewModel.getPersonId());
             String subject = "⏰ Dikkat: Ehliyet Süreniz Yakında Doluyor!";
             String body = String.format("""
                     Merhaba %s,
@@ -87,8 +87,8 @@ public class DriverListenerService {
     @KafkaListener(topics = "suspended-driver", groupId = "notification-group")
     public void getSuspendedDriver(String message) throws Exception {
         try {
-            DriverDto driverDto = objectMapper.readValue(message, DriverDto.class);
-            PersonViewModel p = userClient.findById(driverDto.getPersonId());
+            DriverViewModel driverViewModel = objectMapper.readValue(message, DriverViewModel.class);
+            PersonViewModel p = IUserClient.findById(driverViewModel.getPersonId());
             String subject = "⚠️ Önemli: Sürücü Hesabınız Askıya Alındı";
             String body = String.format("""
                     Merhaba %s,

@@ -54,7 +54,7 @@ public class DriverController {
     }
 
     @GetMapping("/{driverId}")
-    public ResponseEntity<?> findById(@PathVariable UUID driverId) throws Exception {
+    public ResponseEntity<?> findById(@PathVariable UUID driverId){
         var driver = driverService.findById(driverId);
         return ResponseEntity.ok(driver);
     }
