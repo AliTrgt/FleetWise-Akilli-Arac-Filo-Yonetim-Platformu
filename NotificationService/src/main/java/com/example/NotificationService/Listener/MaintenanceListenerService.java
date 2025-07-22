@@ -1,9 +1,8 @@
-package com.example.NotificationService.service;
+package com.example.NotificationService.Listener;
 
 import com.example.NotificationService.dto.VehicleDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service

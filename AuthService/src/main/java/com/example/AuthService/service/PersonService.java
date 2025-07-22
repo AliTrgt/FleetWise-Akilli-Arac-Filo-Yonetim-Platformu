@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +31,11 @@ public class PersonService {
                 .stream()
                 .map(person -> modelMapper.map(person, PersonViewModel.class))
                 .collect(Collectors.toList());
+    }
+
+    public PersonViewModel findById(int id){
+        Person person = personRepository.findById(id).orElseThrow(() -> new NoSuchElementException(id+" ID'li kullanıcı bulunamadı"));
+        return modelMapper.map(person,PersonViewModel.class);
     }
 
     public PersonViewModel updateUser(UpdatePerson updatePerson) {

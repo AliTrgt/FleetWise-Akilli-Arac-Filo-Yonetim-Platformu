@@ -1,4 +1,4 @@
-package com.example.NotificationService.service;
+package com.example.NotificationService.Listener;
 
 import com.example.NotificationService.dto.TripDto;
 import com.fasterxml.jackson.databind.ObjectMapper;

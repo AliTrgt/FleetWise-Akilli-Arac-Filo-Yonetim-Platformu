@@ -1,4 +1,4 @@
-package com.example.NotificationService.job;
+package com.example.NotificationService.Impl;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

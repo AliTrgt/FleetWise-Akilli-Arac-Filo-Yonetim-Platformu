@@ -1,7 +1,7 @@
-package com.example.NotificationService.service;
+package com.example.NotificationService.Listener;
 
+import com.example.NotificationService.Impl.MailService;
 import com.example.NotificationService.dto.VehicleDto;
-import com.example.NotificationService.job.MailService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

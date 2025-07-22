@@ -40,6 +40,12 @@ public class PersonController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable int id){
+             var person = personService.findById(id);
+             return ResponseEntity.ok(person);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
         personService.delete(id);
