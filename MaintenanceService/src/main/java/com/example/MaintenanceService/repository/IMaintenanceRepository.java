@@ -18,5 +18,6 @@ public interface IMaintenanceRepository extends JpaRepository<Maintenance, UUID>
 
     Optional<InsertMaintenance> findByVehicleIdAndDeletedFalse(UUID id);
 
+
     Optional<Maintenance> findByIdAndDeletedFalse(UUID id);
 }
