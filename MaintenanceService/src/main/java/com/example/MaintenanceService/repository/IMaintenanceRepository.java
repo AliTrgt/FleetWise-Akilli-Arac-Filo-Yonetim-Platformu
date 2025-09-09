@@ -1,5 +1,6 @@
 package com.example.MaintenanceService.repository;
 
+import com.example.MaintenanceService.dto.maintenance.request.InsertMaintenance;
 import com.example.MaintenanceService.entity.Maintenance;
 import com.example.MaintenanceService.entity.MaintenanceStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +16,7 @@ public interface IMaintenanceRepository extends JpaRepository<Maintenance, UUID>
 
     List<Maintenance> findAllByStatusAndDeletedFalse(MaintenanceStatus status);
 
-    Optional<Maintenance> findByVehicleIdAndDeletedFalse(UUID id);
+    Optional<InsertMaintenance> findByVehicleIdAndDeletedFalse(UUID id);
 
     Optional<Maintenance> findByIdAndDeletedFalse(UUID id);
 }
